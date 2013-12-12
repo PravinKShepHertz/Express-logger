@@ -31,10 +31,15 @@ if ('development' == app.get('env')) {
 
 // App root
 app.get('/', function(req, res){
-  fs.readFile('/home/ubuntu/app42baas_rails4/log/development.log', "UTF8", function (err, data) {
-    if (err) throw err;
-    res.render('index', {data: data, title: 'App42PaaS Express Logs'});
-  });
+   fs.readFile('/home/ubuntu/app42baas_rails4/log/development.log', 'utf8', function (err, content) {
+        if (err) {
+            return next(err);
+        }
+
+        res.render('index.jade', {
+            lines : content.split(/\r?\n/)
+        });
+    });
 });
 
 app.get('/users', user.list);
